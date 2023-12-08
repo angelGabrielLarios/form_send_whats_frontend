@@ -16,7 +16,7 @@ interface IFormInputs {
 export const FormContact = () => {
 
 
-    const { register, handleSubmit, formState: { errors } } = useForm<IFormInputs>()
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<IFormInputs>()
 
     const [isLoading, setIsLoading] = useState(false)
 
@@ -56,6 +56,7 @@ export const FormContact = () => {
         }
         finally {
             setIsLoading(false)
+            reset()
         }
     }
 

@@ -1,6 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { sendWhatsapp } from '../API'
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { ModalAlert } from ".";
 
 
 interface IFormInputs {
@@ -19,6 +20,11 @@ export const FormContact = () => {
 
     const [isLoading, setIsLoading] = useState(false)
 
+    const modalRef = useRef<HTMLDialogElement>(null)
+
+    const [messageModalRef, setMessageModalRef] = useState(``)
+
+    const [typeModalRef, settypeModalRef] = useState(``)
 
     const onSubmit: SubmitHandler<IFormInputs> = async (data: IFormInputs) => {
 
@@ -33,11 +39,19 @@ export const FormContact = () => {
             Mensage: ${data.message}
             `
             const res = await sendWhatsapp(data.phone, message)
-            console.log(res)
+
+            settypeModalRef(`success`)
+            setMessageModalRef(`Se envio correctamente su informacion`)
+            modalRef.current?.showModal()
+            return
+
 
 
         } catch (error) {
             console.error(error)
+            settypeModalRef(`error`)
+            setMessageModalRef(`No pudo enviar su información`)
+            modalRef.current?.showModal()
         }
         finally {
             setIsLoading(false)
@@ -68,17 +82,6 @@ export const FormContact = () => {
                                 message: 'Este campo es obligatorio'
                             }
                         })} />
-
-                    {
-                        errors?.firstName?.type === 'required'
-                            ?
-                            <p
-                                className="text-error text-xs flex items-center gap-2 justify-end"
-                            >
-                                {errors?.firstName?.message} <svg className="stroke-error" width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12 16H12.01M12 8V12M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
-                            </p>
-                            : null
-                    }
 
                     <input
                         disabled={isLoading}
@@ -208,6 +211,12 @@ export const FormContact = () => {
                     </button>
                 </div>
             </form>
+
+            <ModalAlert
+                message={messageModalRef}
+                modalRef={modalRef}
+                type={typeModalRef}
+            />
         </>
     )
 }

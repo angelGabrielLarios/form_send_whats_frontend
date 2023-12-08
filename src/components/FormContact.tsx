@@ -40,12 +40,13 @@ export const FormContact = () => {
             `
             const res = await sendWhatsapp(data.phone, message)
 
-            settypeModalRef(`success`)
-            setMessageModalRef(`Se envio correctamente su informacion`)
-            modalRef.current?.showModal()
-            return
-
-
+            console.log(res)
+            if (res.status) {
+                settypeModalRef(`success`)
+                setMessageModalRef(`Se envio correctamente su informacion`)
+                modalRef.current?.showModal()
+                return
+            }
 
         } catch (error) {
             console.error(error)

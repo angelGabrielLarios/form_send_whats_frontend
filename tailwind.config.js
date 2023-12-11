@@ -5,7 +5,12 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'sans': ['Open Sans', 'sans-serif'],
+        'header': ['Montserrat', 'sans-serif']
+      }
+    },
   },
   daisyui: {
     themes: ["halloween"],

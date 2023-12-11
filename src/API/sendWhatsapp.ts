@@ -2,17 +2,14 @@ import { IResponseSendWhatsapp } from "./interfaces"
 import { urlAPI } from "./url"
 
 
-export const sendWhatsapp = async (phone: string, message: string): Promise<IResponseSendWhatsapp> => {
-
-    console.log(phone, message)
+export const sendWhatsapp = async (message: string): Promise<IResponseSendWhatsapp> => {
     try {
         const response = await fetch(`${urlAPI}/whatsapp`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
-                // Puedes agregar otras cabeceras según sea necesario
             },
-            body: JSON.stringify({ phone, message })
+            body: JSON.stringify({ message })
 
         })
         const data = await response.json() as IResponseSendWhatsapp

@@ -1,22 +1,12 @@
-import { useForm, SubmitHandler } from "react-hook-form";
-import { sendWhatsapp } from '../API'
-import { useRef, useState } from "react";
 import { ModalAlert } from ".";
-import { TypeAlert } from "./interfaces";
+import { useFormContact } from "../hooks";
 
 
-interface IFormInputs {
-    firstName: string
-    lastName: string
-    email: string
-    phone: string
-    subject: string
-    message: string
-}
+
 
 export const FormContact = () => {
 
-    const { register, handleSubmit, formState: { errors }, reset } = useForm<IFormInputs>()
+    /* const { register, handleSubmit, formState: { errors }, reset } = useForm<IFormInputs>()
 
     const [isLoading, setIsLoading] = useState(false)
 
@@ -26,7 +16,7 @@ export const FormContact = () => {
 
     const [typeModalRef, settypeModalRef] = useState<TypeAlert>(TypeAlert.succes)
 
-    console.log(errors)
+
 
     const onSubmit: SubmitHandler<IFormInputs> = async (data: IFormInputs) => {
 
@@ -66,8 +56,10 @@ export const FormContact = () => {
             setIsLoading(false)
 
         }
-    }
+    } */
 
+
+    const { register, errors, isLoading, modalRef, messageModalRef, typeModalRef, handleSubmit, onSubmit } = useFormContact()
     return (
         <>
             <form
@@ -171,8 +163,6 @@ export const FormContact = () => {
                             </p>
                             : null
                     }
-
-
 
                     <select
                         disabled={isLoading}
